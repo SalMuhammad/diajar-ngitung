@@ -80,9 +80,9 @@
             <option value="ribuan">Ribuan</option>
         </select>
         
-        <select class="w-full px-3 py-2 bg-gray-700 text-white rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
-            <option value="">Nilai Manual</option>
-            <option value="">Nilai Otomatis</option>
+        <select id="sistem-penilayan" class="w-full px-3 py-2 bg-gray-700 text-white rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
+            <option value="manual" selected>Nilai Manual</option>
+            <option value="otomatis">Nilai Otomatis</option>
         </select>
        
     </div>
@@ -134,6 +134,7 @@ const $soal = $('.soal');
 const $jawaban = $('#jawaban');
 const $statusBenar = $('#status-jawaban-benar');
 const $statusSalah = $('#status-jawaban-salah');
+const $cekButton = $('#cek');
 
 // Load saved MAX_NUMBER from localStorage
 if (localStorage.getItem('maxNumber')) {
@@ -248,7 +249,31 @@ const checkAnswer = () => {
 // Event handlers 
 $(document).ready(generateQuestion);
 $('#buat-soal').click(generateQuestion);
-$('#cek').click(checkAnswer);
+
+// Load saved sistem penilayan from localStorage
+if (localStorage.getItem('sistemPenilayan')) {
+    const sistemPenilayan = localStorage.getItem('sistemPenilayan');
+    $('#sistem-penilayan').val(sistemPenilayan);
+    if (sistemPenilayan === 'otomatis') {
+        $cekButton.addClass('hidden');
+        $jawaban.on('input', checkAnswer);
+    }
+}
+
+// Update sistem penilayan based on select value
+$('#sistem-penilayan').change(function() {
+    const selectedValue = $(this).val();
+    // Save to localStorage
+    localStorage.setItem('sistemPenilayan', selectedValue);
+    
+    if (selectedValue === 'otomatis') {
+        $cekButton.addClass('hidden');
+        $jawaban.on('input', checkAnswer);
+    } else {
+        $cekButton.removeClass('hidden');
+        $jawaban.off('input');
+    }
+});
     </script>
     <script src="script.js"></script>
 </body>
