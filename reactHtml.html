@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Web Sederhana (HTML Natural)</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .header-utama {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        .navigasi-utama {
+            background-color: #ddd;
+            padding: 0.5em 0;
+            text-align: center;
+        }
+        .navigasi-utama a {
+            display: inline-block;
+            padding: 0.5em 1em;
+            text-decoration: none;
+            color: #333;
+        }
+        .kontainer-utama {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 70% 30%; /* Dua kolom untuk konten dan sidebar */
+            gap: 20px;
+        }
+        .konten-utama {
+            padding-right: 20px;
+        }
+        .sidebar-utama {
+            background-color: #eee;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .footer-utama {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .bagian {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .bagian:last-child {
+            border-bottom: none;
+        }
+        .daftar-link {
+            list-style: none;
+            padding: 0;
+        }
+        .daftar-link li {
+            margin-bottom: 5px;
+        }
+        .daftar-link a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .daftar-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-utama">
+        <h1>Selamat Datang di Situs Web Kami</h1>
+        <p>Informasi dan Layanan Terbaik untuk Anda</p>
+    </div>
+
+    <nav class="navigasi-utama">
+        <a href="#">Beranda</a>
+        <a href="#">Tentang Kami</a>
+        <a href="#">Layanan</a>
+        <a href="#">Kontak</a>
+    </nav>
+
+    <div class="kontainer-utama">
+        <div class="konten-utama">
+            <div class="bagian">
+                <h2>Selamat Datang</h2>
+                <p>Ini adalah halaman beranda dari situs web kami. Di sini Anda akan menemukan informasi terbaru dan penawaran menarik.</p>
+                <p>Kami berkomitmen untuk memberikan layanan terbaik kepada seluruh pelanggan kami. Jelajahi lebih lanjut untuk mengetahui apa yang bisa kami tawarkan.</p>
+            </div>
+            <div class="bagian">
+                <h2>Fitur Unggulan</h2>
+                <ul>
+                    <li>Fitur 1: Deskripsi singkat fitur pertama.</li>
+                    <li>Fitur 2: Penjelasan mengenai fitur kedua yang bermanfaat.</li>
+                    <li>Fitur 3: Keunggulan fitur ketiga yang tidak ada di tempat lain.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="sidebar-utama">
+            <h3>Artikel Terkait</h3>
+            <ul class="daftar-link">
+                <li><a href="#populer">Artikel Populer</a></li>
+                <li><a href="#terbaru">Artikel Terbaru</a></li>
+                <li><a href="#kategori1">Kategori A</a></li>
+                <li><a href="#kategori2">Kategori B</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer-utama">
+        <p>&copy; 2025 Situs Web Sederhana. Hak Cipta Dilindungi.</p>
+    </footer>
+</body>
+</html>

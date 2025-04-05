@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Produk Kompleks dengan React</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .product-image {
+            width: 100%;
+            height: 150px;
+            background-color: #eee;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+        .product-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-info h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .product-info p {
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #666;
+            flex-grow: 1;
+        }
+        .detail-controls button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-right: 5px;
+        }
+        .detail-controls button:hover {
+            background-color: #0056b3;
+        }
+        .detail-deskripsi {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            font-size: 0.9em;
+        }
+        .close-button {
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-size: 1em;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        .close-button:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const daftarProduk = [
+            { id: 1, nama: "Laptop Super Cepat", deskripsi: "Laptop dengan performa tinggi untuk kebutuhan gaming dan profesional.", gambar: "laptop.jpg" },
+            { id: 2, nama: "Smartphone Canggih", deskripsi: "Smartphone terbaru dengan kamera super jernih dan fitur-fitur inovatif.", gambar: "smartphone.jpg" },
+            { id: 3, nama: "Headphone Nirkabel", deskripsi: "Headphone dengan kualitas suara premium dan koneksi Bluetooth stabil.", gambar: "headphone.jpg" },
+            { id: 4, nama: "Smartwatch Generasi Terbaru", deskripsi: "Smartwatch yang memantau kesehatan dan notifikasi langsung di pergelangan tangan Anda.", gambar: "smartwatch.jpg" },
+            { id: 5, nama: "Tablet Multifungsi", deskripsi: "Tablet ringan dan powerful untuk bekerja, belajar, dan hiburan.", gambar: "tablet.jpg" },
+            { id: 6, nama: "Kamera Mirrorless", deskripsi: "Kamera profesional dengan hasil gambar dan video yang luar biasa.", gambar: "kamera.jpg" },
+            { id: 7, nama: "Speaker Bluetooth Portable", deskripsi: "Speaker kecil dengan suara besar, cocok untuk dibawa ke mana saja.", gambar: "speaker.jpg" },
+            { id: 8, nama: "Keyboard Mekanik", deskripsi: "Keyboard dengan switch mekanik yang responsif untuk pengalaman mengetik yang lebih baik.", gambar: "keyboard.jpg" }
+        ];
+
+        function GambarProduk(props) {
+            return <div className="product-image" style={{ backgroundImage: `url(${props.src})` }}></div>;
+        }
+
+        function NamaProduk(props) {
+            return <h3>{props.nama}</h3>;
+        }
+
+        function DeskripsiProduk(props) {
+            return <p>{props.deskripsi}</p>;
+        }
+
+        function TombolDetail(props) {
+            return <button onClick={props.onClick}>{props.children}</button>;
+        }
+
+        function InfoProduk(props) {
+            return (
+                <div className="product-info">
+                    <NamaProduk nama={props.nama} />
+                    <DeskripsiProduk deskripsi={props.deskripsi} />
+                    <div className="detail-controls">
+                        <TombolDetail onClick={props.onLihatDetail}>Lihat Detail</TombolDetail>
+                        {props.tampilkanDeskripsi && (
+                            <button onClick={props.onTutupDetail} className="close-button">x</button>
+                        )}
+                    </div>
+                    {props.tampilkanDeskripsi && (
+                        <div className="detail-deskripsi">
+                            <p>{props.deskripsi}</p>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function ItemProduk(props) {
+            const [tampilkanDeskripsi, setTampilkanDeskripsi] = React.useState(false);
+
+            const handleLihatDetail = () => {
+                setTampilkanDeskripsi(true);
+            };
+
+            const handleTutupDetail = () => {
+                setTampilkanDeskripsi(false);
+            };
+
+            return (
+                <div className="product-card">
+                    <GambarProduk src={`images/${props.gambar}`} />
+                    <InfoProduk
+                        nama={props.nama}
+                        deskripsi={props.deskripsi}
+                        onLihatDetail={handleLihatDetail}
+                        onTutupDetail={handleTutupDetail}
+                        tampilkanDeskripsi={tampilkanDeskripsi}
+                    />
+                </div>
+            );
+        }
+
+        function DaftarProduk() {
+            return (
+                <div className="product-list">
+                    {daftarProduk.map(produk => (
+                        <ItemProduk key={produk.id} {...produk} />
+                    ))}
+                </div>
+            );
+        }
+
+        function App() {
+            return (
+                <div>
+                    <h1>Daftar Produk Unggulan</h1>
+                    <DaftarProduk />
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

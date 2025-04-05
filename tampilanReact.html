@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Web Sederhana (Struktur Kompleks)</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .header-utama {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        .navigasi-utama {
+            background-color: #ddd;
+            padding: 0.5em 0;
+            text-align: center;
+        }
+        .navigasi-utama a {
+            display: inline-block;
+            padding: 0.5em 1em;
+            text-decoration: none;
+            color: #333;
+        }
+        .kontainer-utama {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 70% 30%; /* Dua kolom untuk konten dan sidebar */
+            gap: 20px;
+        }
+        .konten-utama {
+            padding-right: 20px;
+        }
+        .sidebar-utama {
+            background-color: #eee;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .footer-utama {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .bagian {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .bagian:last-child {
+            border-bottom: none;
+        }
+        .daftar-link {
+            list-style: none;
+            padding: 0;
+        }
+        .daftar-link li {
+            margin-bottom: 5px;
+        }
+        .daftar-link a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .daftar-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        // Komponen untuk Judul Header
+        function JudulHeader() {
+            return <h1>Selamat Datang di Situs Web Kami</h1>;
+        }
+
+        // Komponen untuk Subjudul Header
+        function SubjudulHeader() {
+            return <p>Informasi dan Layanan Terbaik untuk Anda</p>;
+        }
+
+        // Komponen Header Utama
+        function HeaderUtama() {
+            return (
+                <div className="header-utama">
+                    <JudulHeader />
+                    <SubjudulHeader />
+                </div>
+            );
+        }
+
+        // Komponen Link Navigasi
+        function LinkNavigasi(props) {
+            return <a href={props.href}>{props.teks}</a>;
+        }
+
+        // Komponen Navbar Utama
+        function NavigasiUtama() {
+            return (
+                <nav className="navigasi-utama">
+                    <LinkNavigasi href="#" teks="Beranda" />
+                    <LinkNavigasi href="#" teks="Tentang Kami" />
+                    <LinkNavigasi href="#" teks="Layanan" />
+                    <LinkNavigasi href="#" teks="Kontak" />
+                </nav>
+            );
+        }
+
+        // Komponen Paragraf Konten
+        function ParagrafKonten(props) {
+            return <p>{props.isi}</p>;
+        }
+
+        // Komponen Judul Bagian Konten
+        function JudulBagian(props) {
+            return <h2>{props.judul}</h2>;
+        }
+
+        // Komponen Bagian Konten
+        function BagianKonten(props) {
+            return (
+                <div className="bagian">
+                    <JudulBagian judul={props.judul} />
+                    {props.children} {/* Untuk menampung elemen anak seperti ParagrafKonten */}
+                </div>
+            );
+        }
+
+        // Komponen Konten Utama
+        function KontenUtama() {
+            return (
+                <div className="konten-utama">
+                    <BagianKonten judul="Selamat Datang">
+                        <ParagrafKonten isi="Ini adalah halaman beranda dari situs web kami. Di sini Anda akan menemukan informasi terbaru dan penawaran menarik." />
+                        <ParagrafKonten isi="Kami berkomitmen untuk memberikan layanan terbaik kepada seluruh pelanggan kami. Jelajahi lebih lanjut untuk mengetahui apa yang bisa kami tawarkan." />
+                    </BagianKonten>
+                    <BagianKonten judul="Fitur Unggulan">
+                        <ul>
+                            <li>Fitur 1: Deskripsi singkat fitur pertama.</li>
+                            <li>Fitur 2: Penjelasan mengenai fitur kedua yang bermanfaat.</li>
+                            <li>Fitur 3: Keunggulan fitur ketiga yang tidak ada di tempat lain.</li>
+                        </ul>
+                    </BagianKonten>
+                </div>
+            );
+        }
+
+        // Komponen Judul Sidebar
+        function JudulSidebar(props) {
+            return <h3>{props.judul}</h3>;
+        }
+
+        // Komponen Item Link Sidebar
+        function ItemLinkSidebar(props) {
+            return <li><a href={props.href}>{props.teks}</a></li>;
+        }
+
+        // Komponen Daftar Link Sidebar
+        function DaftarLinkSidebar(props) {
+            return (
+                <ul className="daftar-link">
+                    {props.links.map((link, index) => (
+                        <ItemLinkSidebar key={index} href={link.href} teks={link.teks} />
+                    ))}
+                </ul>
+            );
+        }
+
+        // Komponen Sidebar Utama
+        function SidebarUtama() {
+            const linkSidebar = [
+                { href: "#populer", teks: "Artikel Populer" },
+                { href: "#terbaru", teks: "Artikel Terbaru" },
+                { href: "#kategori1", teks: "Kategori A" },
+                { href: "#kategori2", teks: "Kategori B" },
+            ];
+            return (
+                <div className="sidebar-utama">
+                    <JudulSidebar judul="Artikel Terkait" />
+                    <DaftarLinkSidebar links={linkSidebar} />
+                </div>
+            );
+        }
+
+        // Komponen Kontainer Utama (membungkus konten dan sidebar)
+        function KontainerUtama() {
+            return (
+                <div className="kontainer-utama">
+                    <KontenUtama />
+                    <SidebarUtama />
+                </div>
+            );
+        }
+
+        // Komponen Teks Footer
+        function TeksFooter() {
+            return <p>&copy; 2025 Situs Web Sederhana. Hak Cipta Dilindungi.</p>;
+        }
+
+        // Komponen Footer Utama
+        function FooterUtama() {
+            return (
+                <footer className="footer-utama">
+                    <TeksFooter />
+                </footer>
+            );
+        }
+
+        // Komponen Utama Aplikasi
+        function Aplikasi() {
+            return (
+                <div>
+                    <HeaderUtama />
+                    <NavigasiUtama />
+                    <KontainerUtama />
+                    <FooterUtama />
+                </div>
+            );
+        }
+
+        ReactDOM.render(<Aplikasi />, document.getElementById('root'));
+    </script>
+</body>
+</html>

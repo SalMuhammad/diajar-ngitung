@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Untuk Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+    
+</head>
+<body>
+    <header class="bg-sky-900 text-white">
+        <nav class="relative">
+            <ul class="flex text-base">
+                <a class="aktif bg-white font-bold text-sky-900 hover:text-sky-200 cursor-pointer px-2 py-2  transition-colors flex items-center">
+                    <i class="bi bi-dice-1-fill"></i>
+                </a>
+                <a class="hover:text-sky-200 cursor-pointer px-2 py-2  transition-colors flex items-center">
+                    <i class="bi bi-dice-6-fill"></i>
+                </a>
+                <a class="hover:text-sky-200 cursor-pointer px-2 py-2  transition-colors flex items-center">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+            </ul>
+            <!-- Tombol untuk membuka sidebar -->
+            <button class="btn text-xl hover:bg-sky-800 rounded transition-colors absolute right-0 top-0 py-[2px]" id="openSidebar">
+                <i class="bi bi-list text-white"></i>
+            </button>
+            <!-- <button class="btn" id="closeSidebar">
+                <i class="bi bi-x-lg"></i>
+            </button> -->
+        </nav>
+    </header>
+    <div id="sidebar" class="z-10 bg-sky-800 absolute top- right-0 p-4 w-[70%] rounded-t-none rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="mb-4">
+            <div class="flex items-center gap-2 text-white mb-2">
+                <span class="text-sm">Simpan nilai?</span>
+                <input type="checkbox" class="w-4 h-4 rounded accent-sky-400">
+            </div>
+            <span class="text-xs text-sky-200 hover:text-sky-400 cursor-pointer transition-colors">
+                Lihat selengkapnya dari pengaturan ini!!
+            </span>
+        </div>
+
+        <select class="w-full mb-3 px-3 py-2 bg-sky-800 text-white rounded-md border border-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="">acak</option>
+            <option value="">penjumlahan</option>
+            <option value="">pengurangan</option>
+        </select>
+        
+        <select id="max-number" class="w-full mb-3 px-3 py-2 bg-sky-800 text-white rounded-md border border-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="satuan">Satuan</option>
+            <option value="puluhan" selected>Puluhan</option>
+            <option value="ratusaan">Ratusan</option>
+            <option value="ribuan">Ribuan</option>
+        </select>
+        
+        <select class="w-full px-3 py-2 bg-sky-800 text-white rounded-md border border-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="">Nilai Manual</option>
+            <option value="">Nilai Otomatis</option>
+        </select>
+       
+    </div>
+    <div class="container mx-auto px-4 py-8">
+        <button id="buat-soal" class="bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-colors duration-200 transform hover:scale-105">
+            Buatkan Soal
+        </button>
+        <div class="satuan mt-8 bg-white p-6 rounded-xl shadow-lg max-w-md mx-auto">
+            <span class="soal block text-3xl font-bold text-gray-800 mb-6 text-center">1+1 ?</span>
+            <div class="flex items-center justify-center gap-4">
+                <input type="number" id="jawaban" class="jawaban w-24 px-4 py-2 text-xl text-center border-2 border-sky-200 rounded-lg focus:border-sky-500 focus:ring-2 focus:ring-sky-200 outline-none transition-all">
+                <button id="cek" class="bg-sky-500 hover:bg-sky-600 text-white font-medium px-6 py-2 rounded-lg transition-colors">
+                    Cek
+                </button>
+            </div>
+
+            <div class="mt-6 flex justify-center">
+                <span class="nilai hidden items-center bg-green-50 px-4 py-2 rounded-full" id="status-jawaban-benar">
+                    <i class="bi bi-check-circle-fill text-green-500 text-xl mr-2"></i>
+                    <span id="pesan-jawaban" class="font-medium text-green-700">Benar</span>
+                </span>
+           
+                <span class="nilai hidden items-center bg-red-50 px-4 py-2 rounded-full" id="status-jawaban-salah">
+                    <i class="bi bi-x-circle-fill text-red-500 text-xl mr-2"></i>
+                    <span id="pesan-jawaban" class="font-medium text-red-700">Salah</span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+    $('#openSidebar').click(function() {
+        const icon = $(this).find('i');
+        const sidebar = $('#sidebar');
+        
+        if(icon.hasClass('bi-list')) {
+            icon.removeClass('bi-list').addClass('bi-x-lg');
+            sidebar.removeClass('translate-x-full');
+        } else {
+            icon.removeClass('bi-x-lg').addClass('bi-list');
+            sidebar.addClass('translate-x-full');
+        }
+    });
+});
+
+// Konstanta dan cache elemen DOM untuk performa
+let MAX_NUMBER = 1000; // Default value
+const $soal = $('.soal');
+const $jawaban = $('#jawaban');
+const $statusBenar = $('#status-jawaban-benar');
+const $statusSalah = $('#status-jawaban-salah');
+
+// Load saved MAX_NUMBER from localStorage
+if (localStorage.getItem('maxNumber')) {
+    MAX_NUMBER = parseInt(localStorage.getItem('maxNumber'));
+    $('#max-number').val(localStorage.getItem('maxNumberOption'));
+}
+
+// Update MAX_NUMBER based on select value
+$('#max-number').change(function() {
+    const selectedValue = $(this).val();
+    switch(selectedValue) {
+        case 'satuan':
+            MAX_NUMBER = 10;
+            break;
+        case 'puluhan':
+            MAX_NUMBER = 100;
+            break;
+        case 'ratusaan':
+            MAX_NUMBER = 1000;
+            break;
+        case 'ribuan':
+            MAX_NUMBER = 1000000;
+            break;
+    }
+    // Save to localStorage
+    localStorage.setItem('maxNumber', MAX_NUMBER);
+    localStorage.setItem('maxNumberOption', selectedValue);
+    
+    // Generate new question with new MAX_NUMBER
+    generateQuestion();
+});
+
+// State aplikasi
+const state = {
+    angka1: 0,
+    angka2: 0,
+    isCorrect: false
+};
+
+// Generate angka random 1-MAX_NUMBER
+const getRandomNumber = () => Math.floor(Math.random() * MAX_NUMBER) + 1;
+
+// Fungsi untuk memperbarui tampilan soal
+const updateSoalDisplay = () => {
+    $soal.text(`${state.angka1} + ${state.angka2} ?`);
+};
+
+// Reset status jawaban
+const resetStatus = () => {
+    $statusBenar.addClass('hidden');
+    $statusSalah.addClass('hidden');
+};
+
+// Tampilkan status jawaban
+const showStatus = (isCorrect) => {
+    $statusBenar.toggleClass('hidden', !isCorrect);
+    $statusSalah.toggleClass('hidden', isCorrect);
+};
+
+// Generate soal baru
+const generateQuestion = () => {
+    state.angka1 = getRandomNumber();
+    state.angka2 = getRandomNumber();
+    state.isCorrect = false;
+    
+    updateSoalDisplay();
+    $jawaban.val('');
+    resetStatus();
+};
+
+// Cek jawaban
+const checkAnswer = () => {
+    const userAnswer = parseInt($jawaban.val()) || 0;
+    const correctAnswer = state.angka1 + state.angka2;
+    
+    state.isCorrect = (userAnswer === correctAnswer);
+    showStatus(state.isCorrect);
+};
+
+// Event handlers 
+$(document).ready(generateQuestion);
+$('#buat-soal').click(generateQuestion);
+$('#cek').click(checkAnswer);
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

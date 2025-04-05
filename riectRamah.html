@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Web Sederhana (React Lebih Ramah)</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .header-utama {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        .navigasi-utama {
+            background-color: #ddd;
+            padding: 0.5em 0;
+            text-align: center;
+        }
+        .navigasi-utama a {
+            display: inline-block;
+            padding: 0.5em 1em;
+            text-decoration: none;
+            color: #333;
+        }
+        .kontainer-utama {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px #0000001a;
+            display: grid;
+            grid-template-columns: 70% 30%;
+            gap: 20px;
+        }
+        .konten-utama {
+            padding-right: 20px;
+        }
+        .sidebar-utama {
+            background-color: #eee;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .footer-utama {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .bagian {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .bagian:last-child {
+            border-bottom: none;
+        }
+        .daftar-link {
+            list-style: none;
+            padding: 0;
+        }
+        .daftar-link li {
+            margin-bottom: 5px;
+        }
+        .daftar-link a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .daftar-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        // Komponen Judul Header (menggunakan destructuring props)
+        function JudulHeader({ teks }) {
+            return <h1>{teks}</h1>;
+        }
+
+        // Komponen Subjudul Header (menggunakan destructuring props)
+        function SubjudulHeader({ teks }) {
+            return <p>{teks}</p>;
+        }
+
+        // Komponen Header Utama (komposisi langsung)
+        function HeaderUtama() {
+            return (
+                <div className="header-utama">
+                    <JudulHeader teks="Selamat Datang di Situs Web Kami" />
+                    <SubjudulHeader teks="Informasi dan Layanan Terbaik untuk Anda" />
+                </div>
+            );
+        }
+
+        // Komponen Link Navigasi (menggunakan destructuring props)
+        function LinkNavigasi({ href, teks }) {
+            return <a href={href}>{teks}</a>;
+        }
+
+        // Komponen Navbar Utama
+        function NavigasiUtama() {
+            return (
+                <nav className="navigasi-utama">
+                    <LinkNavigasi href="#" teks="Beranda" />
+                    <LinkNavigasi href="#" teks="Tentang Kami" />
+                    <LinkNavigasi href="#" teks="Layanan" />
+                    <LinkNavigasi href="#" teks="Kontak" />
+                </nav>
+            );
+        }
+
+        // Komponen Paragraf Konten (menggunakan destructuring props)
+        function ParagrafKonten({ isi }) {
+            return <p>{isi}</p>;
+        }
+
+        // Komponen Judul Bagian Konten (menggunakan destructuring props)
+        function JudulBagian({ judul }) {
+            return <h2>{judul}</h2>;
+        }
+
+        // Komponen Bagian Konten (menggunakan props.children untuk bersarang)
+        function BagianKonten({ judul, children }) {
+            return (
+                <div className="bagian">
+                    <JudulBagian judul={judul} />
+                    {children} {/* Di sini kita menempatkan elemen anak */}
+                </div>
+            );
+        }
+
+        // Komponen Konten Utama (komposisi BagianKonten dengan elemen HTML langsung)
+        function KontenUtama() {
+            return (
+                <div className="konten-utama">
+                    <BagianKonten judul="Selamat Datang">
+                        <ParagrafKonten isi="Ini adalah halaman beranda dari situs web kami. Di sini Anda akan menemukan informasi terbaru dan penawaran menarik." />
+                        <ParagrafKonten isi="Kami berkomitmen untuk memberikan layanan terbaik kepada seluruh pelanggan kami. Jelajahi lebih lanjut untuk mengetahui apa yang bisa kami tawarkan." />
+                    </BagianKonten>
+                    <BagianKonten judul="Fitur Unggulan">
+                        <ul>
+                            <li>Fitur 1: Deskripsi singkat fitur pertama.</li>
+                            <li>Fitur 2: Penjelasan mengenai fitur kedua yang bermanfaat.</li>
+                            <li>Fitur 3: Keunggulan fitur ketiga yang tidak ada di tempat lain.</li>
+                        </ul>
+                    </BagianKonten>
+                </div>
+            );
+        }
+
+        // Komponen Judul Sidebar (menggunakan destructuring props)
+        function JudulSidebar({ judul }) {
+            return <h3>{judul}</h3>;
+        }
+
+        // Komponen Item Link Sidebar (menggunakan destructuring props)
+        function ItemLinkSidebar({ href, teks }) {
+            return <li><a href={href}>{teks}</a></li>;
+        }
+
+        // Komponen Daftar Link Sidebar (komposisi langsung dan map)
+        function DaftarLinkSidebar() {
+            const links = [
+                { href: "#populer", teks: "Artikel Populer" },
+                { href: "#terbaru", teks: "Artikel Terbaru" },
+                { href: "#kategori1", teks: "Kategori A" },
+                { href: "#kategori2", teks: "Kategori B" },
+            ];
+            return (
+                <ul className="daftar-link">
+                    {links.map((link, index) => (
+                        <ItemLinkSidebar key={index} href={link.href} teks={link.teks} />
+                    ))}
+                </ul>
+            );
+        }
+
+        // Komponen Sidebar Utama (komposisi langsung)
+        function SidebarUtama() {
+            return (
+                <div className="sidebar-utama">
+                    <JudulSidebar judul="Artikel Terkait" />
+                    <DaftarLinkSidebar />
+                </div>
+            );
+        }
+
+        // Komponen Kontainer Utama
+        function KontainerUtama() {
+            return (
+                <div className="kontainer-utama">
+                    <KontenUtama />
+                    <SidebarUtama />
+                </div>
+            );
+        }
+
+        // Komponen Teks Footer (menggunakan destructuring props)
+        function TeksFooter({ teks }) {
+            return <p>{teks}</p>;
+        }
+
+        // Komponen Footer Utama
+        function FooterUtama() {
+            return (
+                <footer className="footer-utama">
+                    <TeksFooter teks="&copy; 2025 Situs Web Sederhana. Hak Cipta Dilindungi." />
+                </footer>
+            );
+        }
+
+        // Komponen Utama Aplikasi
+        function Aplikasi() {
+            return (
+                <div>
+                    <HeaderUtama />
+                    <NavigasiUtama />
+                    <KontainerUtama />
+                    <FooterUtama />
+                </div>
+            );
+        }
+
+        ReactDOM.render(<Aplikasi />, document.getElementById('root'));
+    </script>
+</body>
+</html>
